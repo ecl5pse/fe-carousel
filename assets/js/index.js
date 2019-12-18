@@ -10,7 +10,7 @@ class CarouselController {
    *
    * @param {string} url
    */
-  constructor (url) {
+  constructor(url) {
     this._carousel = null;
     this._error = null;
     this._isFetching = false;
@@ -18,11 +18,11 @@ class CarouselController {
     this.loadData(url);
   }
 
-  get isFetching () {
+  get isFetching() {
     return this._isFetching;
   }
 
-  set isFetching (value) {
+  set isFetching(value) {
     if (typeof value !== 'boolean') {
       throw new TypeError();
     }
@@ -37,11 +37,11 @@ class CarouselController {
 
   }
 
-  get error () {
+  get error() {
     return this._error;
   }
 
-  set error (value) {
+  set error(value) {
     if (value instanceof Error) {
       this._error = value;
       this.isFetching = false;
@@ -55,22 +55,19 @@ class CarouselController {
 
   loadData = (url) => {
     this.isFetching = true;
-    fetch(url)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        this._carousel = new Carousel(data);
-        this._error = null;
-        this.isFetching = false;
-      })
-      .catch(err => {
+    fetch(url).then(response => {
+      return response.json();
+    }).then(data => {
+      this._carousel = new Carousel(data);
+      this._error = null;
+      this.isFetching = false;
+    }).catch(err => {
 
-        this.error = err;
-      });
+      this.error = err;
+    });
   };
 
-  nextClick () {
+  nextClick() {
 
     const prevSlide = document.getElementById(this._carousel.prevIndex);
     const currentSlide = document.getElementById(this._carousel.currentIndex);
@@ -80,7 +77,8 @@ class CarouselController {
 
     currentSlide.classList.replace('currentSlide', 'prevSlide');
 
-    nextSlide.classList.replace('nextSlide', 'currentSlide');
+    nextSlide.classL;
+    ist.replace('nextSlide', 'currentSlide');
 
     this._carousel.goNext();
 
@@ -88,11 +86,24 @@ class CarouselController {
     nextSlide.classList.add('visibleSlide', 'nextSlide');
   };
 
-  prevClick () {
+  prevClick = () => {
+    const nextSlide = document.getElementById(this._carousel.nextIndex);
+    const currentSlide = document.getElementById(this._carousel.currentIndex);
+    let prevSlide = document.getElementById(this._carousel.prevIndex);
+
+    nextSlide.classList.remove('visibleSlide', 'nextSlide');
+
+    currentSlide.classList.replace('currentSlide', 'nextSlide');
+
+    prevSlide.classList.replace('prevSlide', 'currentSlide');
+
+    this._carousel.goPrev();
+    prevSlide = document.getElementById(this._carousel.prevIndex);
+    prevSlide.classList.add('visibleSlide', 'prevSlide');
 
   };
 
-  renderButton () {
+  renderButton() {
 
     const arrowImg = new Image();
     arrowImg.src = `${location.origin}/assets/icons/arrow.png`;
@@ -102,7 +113,7 @@ class CarouselController {
     return button;
   }
 
-  renderSlide (src, index) {
+  renderSlide(src, index) {
     const slideImg = new Image();
     slideImg.src = src;
 
@@ -112,10 +123,12 @@ class CarouselController {
     if (index === this._carousel.currentIndex) {
       slideElem.classList.add('visibleSlide', 'currentSlide');
     }
-    if (index === Carousel.getNextIndex(this._carousel.currentIndex, this._carousel.length)) {
+    if (index === Carousel.getNextIndex(this._carousel.currentIndex,
+        this._carousel.length)) {
       slideElem.classList.add('visibleSlide', 'nextSlide');
     }
-    if (index === Carousel.getPrevIndex(this._carousel.currentIndex, this._carousel.length)) {
+    if (index === Carousel.getPrevIndex(this._carousel.currentIndex,
+        this._carousel.length)) {
       slideElem.classList.add('visibleSlide', 'prevSlide');
     }
     slideElem.setAttribute('id', index);
@@ -123,7 +136,7 @@ class CarouselController {
     return slideElem;
   }
 
-  renderSliderContainer () {
+  renderSliderContainer() {
     const sliderContainer = document.createElement('div');
     sliderContainer.classList.add('slidesContainer');
 
@@ -138,7 +151,7 @@ class CarouselController {
     return sliderContainer;
   }
 
-  render () {
+  render() {
 
     const prevButton = this.renderButton();
     prevButton.setAttribute('alt', '<<');
@@ -176,7 +189,7 @@ carousel.onerror = (e) => {
   renderCarousel();
 };
 
-function renderCarousel () {
+function renderCarousel() {
   let carouselElem = document.getElementById(CAROUSEL_ID);
   if (carouselElem) {
     const newCarouselElem = carousel.render();
