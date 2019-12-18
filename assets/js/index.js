@@ -77,8 +77,7 @@ class CarouselController {
 
     currentSlide.classList.replace('currentSlide', 'prevSlide');
 
-    nextSlide.classL;
-    ist.replace('nextSlide', 'currentSlide');
+    nextSlide.classList.replace('nextSlide', 'currentSlide');
 
     this._carousel.goNext();
 
